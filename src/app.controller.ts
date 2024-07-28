@@ -14,7 +14,7 @@ export class AppController {
   @Get('checkout')
   @Render('checkout')
   getCheckout() {
-    return { uName: 'hosein', isLogin: false };
+    return {uName:'hosein'};
   }
 
 }
