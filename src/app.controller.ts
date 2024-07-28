@@ -8,5 +8,13 @@ export class AppController {
   @Get()
   @Render('product')
   getIndex() {
+    return { uName: 'hosein', isLogin: false };
   }
+
+  @Get('checkout')
+  @Render('checkout')
+  getCheckout() {
+    return { uName: 'hosein', isLogin: false };
+  }
+
 }
