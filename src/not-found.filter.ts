@@ -7,7 +7,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
 
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
-        const request = ctx.getRequest<Request>();
+
         const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.NOT_FOUND;
 
         response.status(status).render('404');
