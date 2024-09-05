@@ -1,38 +1,68 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 import { Repository } from 'typeorm';
+import { DuplicateDataException } from 'src/error-handler/duplicate.data.exception';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
+    constructor(@InjectRepository(UserEntity) private userRepository: Repository<UserEntity>) { }
 
-    async login(email: string, password: string): Promise<boolean> {
 
-        try {
+    async addUser(userName: string, phoneNumber: string, password: string, multiUser: string, startServiceDate: string, endServiceDate: string): Promise<UserEntity> {
+        // Check if a user with the same phone number or username already exists
+        const existingUser = await this.userRepository.findOne({ where: { phoneNumber: phoneNumber } });
 
-            const user = await this.userRepository.findOne({ where: { email } });
-
-            const isPasswordValid = user && user.password === password;
-
-            return isPasswordValid;
-        } catch (error) {
-            return false;
+        if (existingUser) {
+            throw new DuplicateDataException('کاربر مورد نظر وجود دارد');
         }
 
+        // Create a new user entity
+        const user = new UserEntity();
+        user.phoneNumber = phoneNumber;
+        user.userName = userName;
+        user.password = password;
+        user.startServiceDate = startServiceDate;
+        user.endServiceDate = endServiceDate;
+        user.multiUser = multiUser;
+        user.role = 'user';
+        user.status=true;
+
+        // Save the new user
+        return await this.userRepository.save(user);
     }
 
-    async register(email: string, password: string): Promise<boolean> {
 
-        try {
+    async findUserByPhoneNumber(phoneNumber: string) {
 
-            const user = this.userRepository.create({ email, password });
-            await this.userRepository.save(user);
+        const user = await this.userRepository.findOne({ where: { phoneNumber } });
 
-            return true;
-        } catch (error) {
-            return false;
+        if (!user) {
+            throw new NotFoundException('کاربری با این شماره تلفن یافت نشد');
         }
 
+        return user;
     }
+
+
+    async getAllUsers(): Promise<UserEntity[]> {
+        return await this.userRepository.find({ where: { role: 'user' } });
+    }
+
+
+    async updateUserByPhoneNumber(originalPhoneNumber:string,userName: string, password: string,macAddress:string, startServiceDate: string, endServiceDate: string, phoneNumber: string,status:string): Promise<void> {
+        const updatedUserData = {
+            userName: userName,
+            password: password,
+            phoneNumber:phoneNumber,
+            macAddress:macAddress,
+            startServiceDate: startServiceDate,
+            endServiceDate: endServiceDate,
+            status:status=='true'?true:false,
+        };
+
+        await this.userRepository.update({ phoneNumber: originalPhoneNumber }, updatedUserData);
+    }
+
+
 }
