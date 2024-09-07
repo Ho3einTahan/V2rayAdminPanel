@@ -9,8 +9,10 @@ import cookieParser from 'cookie-parser';
 import RedisStore from "connect-redis"
 import {createClient} from "redis"
 import { seedAdmin } from './seed';
+import { NotFoundExceptionFilter } from './error-handler/not-found.filter';
 
 async function bootstrap() {
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // تنظیمات استاتیک و ویو
@@ -19,21 +21,11 @@ async function bootstrap() {
   app.setViewEngine('ejs');
 
 
+  app.useGlobalFilters(new NotFoundExceptionFilter());
 
-// Initialize client.
-let redisClient = createClient()
-redisClient.connect().catch(console.error)
-
-// Initialize store.
-let redisStore = new RedisStore({
-  client: redisClient,
-  prefix: "myapp:",
-  ttl:3600,
-})
 
   app.use(
     session({
-      store: redisStore,
       secret: 'your-secret-key',
       name:'hosein',
       resave: false,
