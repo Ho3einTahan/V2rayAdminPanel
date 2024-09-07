@@ -87,34 +87,18 @@
 <body>
     <div class="container">
         <h2>ویرایش سرور</h2>
-        <form id="editServerForm">
+        <form id="editServerForm" action="/servers/edit" method="post">
+            <input type="text" class="hidden-" id="id" name="id" value="<%= server.id %>" hidden>
             <label for="serverName">نام سرور:</label>
-            <input type="text" id="serverName" name="serverName" value="سرور تهران" required>
+            <input type="text" id="serverName" name="serverName" value="<%= server.name %>" required>
 
             <label for="serverAddress">آدرس سرور:</label>
-            <input type="text" id="serverAddress" name="serverAddress" value="tehran.example.com" required>
+            <input type="text" id="serverAddress" name="serverAddress" value="<%= server.address %>" required>
 
             <button type="submit">ذخیره تغییرات</button>
         </form>
 
         <a href="/servers" class="back-link">بازگشت به لیست سرورها</a>
     </div>
-
-    <script>
-        document.getElementById('editServerForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            // Get form values
-            const serverName = document.getElementById('serverName').value;
-            const serverAddress = document.getElementById('serverAddress').value;
-
-            // Here you can add code to send the updated server data to your server or database
-
-            alert('تغییرات با موفقیت ذخیره شد!');
-
-            // Redirect or clear form fields as needed
-            window.location.href = '/servers'; // بازگشت به لیست سرورها پس از ذخیره
-        });
-    </script>
 </body>
 </html>
