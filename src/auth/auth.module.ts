@@ -1,20 +1,31 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserModule } from '../user/user.module'; 
+import { UserModule } from '../user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '../entities/user.entity'; 
-import { SessionSerializer } from '../passport/serialize-deserialize-passport'; 
-import { LocalStrategy } from 'src/passport/local.strategy';
+import { UserEntity } from '../entities/user.entity';
+import { jwtConstants } from '../constant/constants';
+import { LocalStrategy } from 'src/auth/local.strategy';
+import { LocalJwtStrategy } from 'src/auth/jwt.strategy';
+import { PassportModule, PassportStrategy } from '@nestjs/passport';
 
 @Module({
   imports: [
-    PassportModule.register({ session: true }), // اضافه کردن PassportModule برای پشتیبانی از سشن
     forwardRef(() => UserModule), // جلوگیری از وابستگی دایره‌ای
     TypeOrmModule.forFeature([UserEntity]), // اصلاح مسیر و تعریف موجودیت‌ها
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register(
+      {
+        secret: jwtConstants.secret,
+        signOptions: { expiresIn: '600s' },
+      }
+    ),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, SessionSerializer], // اضافه کردن LocalStrategy و SessionSerializer به providers
+  providers: [AuthService, LocalStrategy],
+  // export for api route
+  exports: [AuthService],
+  // LocalJwtStrategy  اگر نیاز بود از گارد استفاده کنم
 })
-export class AuthModule {}
+export class AuthModule { }
