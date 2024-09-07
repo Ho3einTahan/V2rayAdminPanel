@@ -9,24 +9,34 @@ export class UserEntity {
   @Column({ unique: true })
   phoneNumber: string;
 
-  @Column({nullable:true})
+  @Column({ type: 'varchar', length: 110 })
   password: string;
 
   @Column()
   userName: string;
 
-  @Column({ nullable: true })
-  startServiceDate: Date;
+  @Column({type:'varchar' ,length:10,nullable: true})
+  startServiceDate: string;
 
-  @Column({ nullable: true })
-  endServiceDate: Date;
+  @Column({type:'varchar' ,length:10,nullable: true})
+  endServiceDate: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 80, nullable: true })
   macAddress: string;
+  
+  @Column('boolean')
+  status:boolean;
 
   @Column({ nullable: true })
-  multiUser : string;
+  multiUser: string;
 
   @Column({ default: 'user' })
   role: string;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+
+
 }
