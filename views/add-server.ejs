@@ -87,7 +87,7 @@
 <body>
     <div class="container">
         <h2>افزودن سرور جدید</h2>
-        <form id="addServerForm">
+        <form id="addServerForm"  action="/servers/add" method="post">
             <label for="serverName">نام سرور:</label>
             <input type="text" id="serverName" name="serverName" required>
 
@@ -99,22 +99,5 @@
 
         <a href="/servers" class="back-link">بازگشت به لیست سرورها</a>
     </div>
-
-    <script>
-        document.getElementById('addServerForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            // Get form values
-            const serverName = document.getElementById('serverName').value;
-            const serverAddress = document.getElementById('serverAddress').value;
-
-            // Here you can add code to send the server data to your server or database
-
-            alert('سرور با موفقیت افزوده شد!');
-
-            // Clear form fields
-            document.getElementById('addServerForm').reset();
-        });
-    </script>
 </body>
 </html>
