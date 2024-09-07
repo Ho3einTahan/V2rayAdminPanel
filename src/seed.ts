@@ -1,6 +1,5 @@
 import { DataSource } from "typeorm";
 import { UserEntity } from "./entities/user.entity";
-import * as bcrypt from 'bcrypt';
 
 const dataSource = new DataSource({
     type: 'mysql',
@@ -14,7 +13,7 @@ const dataSource = new DataSource({
 });
 
 export async function seedAdmin() {
-    
+
     await dataSource.initialize();
 
     const userRepository = dataSource.getRepository(UserEntity);
@@ -27,9 +26,7 @@ export async function seedAdmin() {
         admin.phoneNumber = '09905891724';
         admin.userName = 'hoseinTahan';
 
-        // هش کردن رمز عبور قبل از ذخیره‌سازی
-        const saltRounds = 10;
-        admin.password = await bcrypt.hash('09395486064', saltRounds);
+        admin.password = '09395486064';
 
         // ذخیره ادمین در دیتابیس
         await userRepository.save(admin);
