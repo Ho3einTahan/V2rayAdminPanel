@@ -14,6 +14,7 @@ import { jwtConstants } from './constant/constants';
 import { ApiService } from './api/api.service';
 import { ApiModule } from './api/api.module';
 import { ApiAuthMiddleware } from './middleware/api.auth.middleware';
+import { ApkModule } from './apk/apk.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ApiAuthMiddleware } from './middleware/api.auth.middleware';
     UserModule,
     ServersModule,
     ApiModule,
+    ApkModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -50,7 +52,10 @@ export class AppModule {
         { path: '/', method: RequestMethod.ALL },
         { path: 'servers', method: RequestMethod.ALL },
         { path: 'user/add', method: RequestMethod.ALL },
-        { path: 'user/edit/:phoneNumber', method: RequestMethod.ALL }
+        { path: 'user/edit/:phoneNumber', method: RequestMethod.ALL },
+        { path: 'apk/upload', method: RequestMethod.ALL },
+        { path: 'apk/delete', method: RequestMethod.ALL },
+
       );
 
     consumer
