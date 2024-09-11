@@ -19,10 +19,8 @@ export class JwtAuthMiddleware implements NestMiddleware {
 
       // بررسی نقش ادمین
       if (payload.role !== 'admin') {
-        throw new ForbiddenException('Access denied. Insufficient permissions.');
+        throw new  ForbiddenException('دسترسی کاربر غیر مجاز کاربر باید مدیر باشد');
       }
-
-
 
       req.user = payload; // اضافه کردن payload به درخواست برای دسترسی آسان‌تر در دیگر قسمت‌ها
 
