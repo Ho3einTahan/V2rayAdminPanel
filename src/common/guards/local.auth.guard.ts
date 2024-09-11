@@ -12,28 +12,34 @@ export class LocalAuthGuard extends AuthGuard('local') {
     const response = context.switchToHttp().getResponse<Response>();
 
     try {
+
       // اجرای استراتژی 
       const result = await super.canActivate(context) as boolean;
-      console.log('local auth guard ');
+
       // define request.user in strategy
       const user = request.user;
-      
+
       // if not /api route
       if (user && user['role'] != 'admin' && !request.url.startsWith('/api')) {
-        throw new UnauthorizedException('Access denied for non-admin users.');
+        throw new UnauthorizedException('دسترسی محدود شده کاربر مدیر نمیباشد');
       }
 
       return result; // در صورت موفقیت true برمی‌گ  رداند
 
     } catch (err) {
 
-      if (request.url.startsWith('/api')) {
-        response.status(404).json({ message: 'نام کاربری یا کلمه عبور اشتباه است' });
+      if (err instanceof UnauthorizedException) {
+
+        if (request.url.startsWith('/api')) {
+          response.status(404).json({ message: err.message });
+        }
+        else {
+          request.flash('error', err.message);
+          response.redirect('/auth/login');
+        }
+
       }
-      else {
-        request.flash('error', 'نام کاربری یا کلمه عبور اشتباه میباشد');
-        response.redirect('/auth/login');
-      }
+
       return false;
     }
   }
