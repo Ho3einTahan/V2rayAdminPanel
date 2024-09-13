@@ -19,7 +19,7 @@ export class ServersController {
     }
 
     @Get('edit/:id')
-    @Render('edit-server')
+    @Render('update-server')
     async showEditServerPage(@Param('id') id: string) {
         const server = await this.serversService.getServerById(parseInt(id));
         return { server };
