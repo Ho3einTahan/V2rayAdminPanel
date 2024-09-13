@@ -3,6 +3,7 @@ import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user')
 export class UserEntity {
+
   @PrimaryGeneratedColumn('increment')
   id: string;
 
@@ -15,17 +16,17 @@ export class UserEntity {
   @Column()
   userName: string;
 
-  @Column({type:'varchar' ,length:10,nullable: true})
+  @Column({ type: 'varchar', length: 10, nullable: true })
   startServiceDate: string;
 
-  @Column({type:'varchar' ,length:10,nullable: true})
+  @Column({ type: 'varchar', length: 10, nullable: true })
   endServiceDate: string;
 
   @Column({ type: 'varchar', length: 80, nullable: true })
   macAddress: string;
-  
+
   @Column('boolean')
-  status:boolean;
+  status: boolean;
 
   @Column({ nullable: true })
   multiUser: string;
@@ -37,6 +38,5 @@ export class UserEntity {
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);
   }
-
 
 }
