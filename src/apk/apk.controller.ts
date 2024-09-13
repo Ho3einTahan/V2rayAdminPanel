@@ -21,9 +21,7 @@ export class ApkController {
     @Get('upload')
     @Render('upload')
     showUplsoadPage() {
-
         const files = readdirSync(filePath);
-
         return { files }
     }
 
@@ -34,7 +32,6 @@ export class ApkController {
             storage: diskStorage({
                 destination: './uploads', // مسیر ذخیره فایل‌ها
                 filename: (req, file, cb) => {
-                    // const randomName = Math.round(Math.random() * 16).toString(16);
                     cb(null, `${file.originalname}`);
                 },
             }),
