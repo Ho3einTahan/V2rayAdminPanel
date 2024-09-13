@@ -1,4 +1,4 @@
-import {Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { JwtService } from '@nestjs/jwt';
 
@@ -10,15 +10,12 @@ export class ApiAuthMiddleware implements NestMiddleware {
     use(req: Request, res: Response, next: NextFunction) {
 
         const token = this.extractToken(req);
-        console.log(token);
+
         if (!token) return res.status(403).json({ message: 'خطا در اعتبار سنجی کاربر' });
 
         try {
-
             this.jwtService.verify(token);
-             console.log('verifyed');
             return next();
-
         } catch (error) {
             return res.status(403).json({ message: 'خطا در اعتبار سنجی کاربر' });
         }
