@@ -50,7 +50,7 @@ export class UserService {
     }
 
 
-    async updateUserByPhoneNumber(role:string,originalPhoneNumber:string,userName: string, password: string,macAddress:string, startServiceDate: string, endServiceDate: string, phoneNumber: string,status:string): Promise<void> {
+    async updateUserByPhoneNumber(role:string,originalPhoneNumber:string,userName: string, password: string,macAddress:string, startServiceDate: string, endServiceDate: string, phoneNumber: string,status:string,multiUser:string): Promise<void> {
         const updatedUserData = {
             userName: userName,
             password: password,
@@ -59,6 +59,7 @@ export class UserService {
             startServiceDate: startServiceDate,
             endServiceDate: endServiceDate,
             status:status=='true'?true:false,
+            multiUser:multiUser,
             role:role,
         };
 
