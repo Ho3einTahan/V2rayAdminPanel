@@ -15,6 +15,8 @@ import { ApiService } from './api/api.service';
 import { ApiModule } from './api/api.module';
 import { ApiAuthMiddleware } from './middleware/api.auth.middleware';
 import { ApkModule } from './apk/apk.module';
+import { PricingModule } from './pricing/pricing.module';
+import { PricingEntity } from './entities/pricing.entity';
 
 @Module({
   imports: [
@@ -25,7 +27,7 @@ import { ApkModule } from './apk/apk.module';
       username: 'root',
       password: '',
       database: 'v2ray',
-      entities: [UserEntity, V2rayConfigEntity],
+      entities: [UserEntity, V2rayConfigEntity, PricingEntity],
       synchronize: false,
     }),
     JwtModule.register({
@@ -37,6 +39,7 @@ import { ApkModule } from './apk/apk.module';
     ServersModule,
     ApiModule,
     ApkModule,
+    PricingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -54,9 +57,14 @@ export class AppModule {
         { path: 'user/add', method: RequestMethod.ALL },
         { path: 'user/edit/:phoneNumber', method: RequestMethod.ALL },
         { path: 'apk/upload', method: RequestMethod.ALL },
-        { path: 'apk/delete', method: RequestMethod.ALL },
-
+        { path: 'apk/delete/:id', method: RequestMethod.ALL },
+        { path: 'pricing', method: RequestMethod.ALL },
+        { path: 'pricing/add', method: RequestMethod.ALL },
+        { path: 'pricing/edit/:id', method: RequestMethod.ALL },
+        { path: 'pricing/delete/:id', method: RequestMethod.ALL },
       );
+
+
 
     consumer
       .apply(ApiAuthMiddleware)
