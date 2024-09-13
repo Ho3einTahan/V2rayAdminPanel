@@ -10,14 +10,14 @@ export class UserController {
 
     @Get('add')
     @Render('add-user')
-    getAddUser(@Req() req: Request) {
+    showAddUserPage(@Req() req: Request) {
         const error = req.flash('error');
         return { 'error': error };
     }
 
     @Get('edit/:phoneNumber')
-    @Render('edit-user-profile')
-    async editUserProfile(@Param('phoneNumber') phoneNumber: string, @Req() req: Request) {
+    @Render('update-user')
+    async editUserPage(@Param('phoneNumber') phoneNumber: string, @Req() req: Request) {
         try {
             const user = await this.userService.findUserByPhoneNumber(phoneNumber);
             return { user };
@@ -30,10 +30,10 @@ export class UserController {
     @Post('edit')
     async updateUserData(@Body() body, @Res() res: Response, @Req() req: Request) {
 
-        const { userName, password, startServiceDate, macAddress, endServiceDate, phoneNumber, originalPhoneNumber, status,role} = body;
+        const { userName, password, startServiceDate, macAddress, endServiceDate, phoneNumber, originalPhoneNumber, status,role,multiUser} = body;
 
         try {
-            await this.userService.updateUserByPhoneNumber(role,originalPhoneNumber, userName, password, macAddress, startServiceDate, endServiceDate, phoneNumber, status);
+            await this.userService.updateUserByPhoneNumber(role,originalPhoneNumber, userName, password, macAddress, startServiceDate, endServiceDate, phoneNumber, status,multiUser);
             req.flash('success', `اطلاعات کاربر ${userName} با موفقیت تغیر یافت`);
         }
         catch (e) {
