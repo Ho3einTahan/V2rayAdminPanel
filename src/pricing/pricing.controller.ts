@@ -51,7 +51,7 @@ export class PricingController {
             return res.redirect('/pricing');
         } catch (e) {
             req.flash('خطایی در بروز رسانی تعرفه مورد نظر رخ داد');
-            return res.redirect('/');
+            return res.redirect('/admin/dashboard');
         }
     }
 
