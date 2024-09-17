@@ -22,7 +22,7 @@ export class AuthController {
   async login(@Req() req, @Res() res: Response) {
     this.authService.login(req.user,req,res);
     req.flash('success', 'با موفقیت وارد شدید');
-    return res.redirect('/');
+    return res.redirect('/admin/dashboard');
   }
 
 
