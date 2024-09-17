@@ -39,7 +39,7 @@ export class UserController {
         catch (e) {
             req.flash('error', 'خطایی در بروزسانی اطلاعات کاربر مورد نظر رخ داد');
         }
-        return res.redirect('/');
+        return res.redirect('/admin/dashboard');
     }
 
     @Post('add')
@@ -48,7 +48,7 @@ export class UserController {
         try {
             await this.userService.addUser(userName, phoneNumber, password, multiUser, startServiceDate, endServiceDate);
             req.flash('success', 'کاربر با موفقیت اضافه شد');
-            return res.redirect('/');
+            return res.redirect('/admin/dashboard');
         } catch (e) {
             if (e instanceof DuplicateDataException) {
                 req.flash('error', e.message);
