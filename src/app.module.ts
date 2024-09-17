@@ -11,12 +11,12 @@ import { V2rayConfigEntity } from './entities/v2ray.config.entity';
 import { ServersModule } from './servers/servers.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constant/constants';
-import { ApiService } from './api/api.service';
 import { ApiModule } from './api/api.module';
 import { ApiAuthMiddleware } from './middleware/api.auth.middleware';
 import { ApkModule } from './apk/apk.module';
 import { PricingModule } from './pricing/pricing.module';
 import { PricingEntity } from './entities/pricing.entity';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -40,6 +40,7 @@ import { PricingEntity } from './entities/pricing.entity';
     ApiModule,
     ApkModule,
     PricingModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -52,7 +53,7 @@ export class AppModule {
       .apply(JwtAuthMiddleware)
       .forRoutes(
         // these are all route that needs to use middleware
-        { path: '/', method: RequestMethod.ALL },
+        { path: 'admin/dashboard', method: RequestMethod.ALL },
         { path: 'servers', method: RequestMethod.ALL },
         { path: 'user/add', method: RequestMethod.ALL },
         { path: 'user/edit/:phoneNumber', method: RequestMethod.ALL },
