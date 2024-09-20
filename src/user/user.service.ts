@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../entities/user.entity';
+import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { DuplicateDataException } from 'src/error-handler/duplicate.data.exception';
 
@@ -51,9 +52,10 @@ export class UserService {
 
 
     async updateUserByPhoneNumber(role:string,originalPhoneNumber:string,userName: string, password: string,macAddress:string, startServiceDate: string, endServiceDate: string, phoneNumber: string,status:string,multiUser:string): Promise<void> {
+        const encryptPassword=await bcrypt.hash(password,10);
         const updatedUserData = {
             userName: userName,
-            password: password,
+            password: encryptPassword,
             phoneNumber:phoneNumber,
             macAddress:macAddress,
             startServiceDate: startServiceDate,
