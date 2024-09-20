@@ -27,7 +27,7 @@ export class UserService {
         user.endServiceDate = endServiceDate;
         user.multiUser = multiUser;
         user.role = 'user';
-        user.status=true;
+        user.status = true;
 
         // Save the new user
         return await this.userRepository.save(user);
@@ -51,21 +51,30 @@ export class UserService {
     }
 
 
-    async updateUserByPhoneNumber(role:string,originalPhoneNumber:string,userName: string, password: string,macAddress:string, startServiceDate: string, endServiceDate: string, phoneNumber: string,status:string,multiUser:string): Promise<void> {
-        const encryptPassword=await bcrypt.hash(password,10);
+    async updateUserByPhoneNumber(role: string, originalPhoneNumber: string, userName: string, password: string, macAddress: string, startServiceDate: string, endServiceDate: string, phoneNumber: string, status: string, multiUser: string): Promise<void> {
+        const encryptPassword = await bcrypt.hash(password, 10);
         const updatedUserData = {
             userName: userName,
             password: encryptPassword,
-            phoneNumber:phoneNumber,
-            macAddress:macAddress,
+            phoneNumber: phoneNumber,
+            macAddress: macAddress,
             startServiceDate: startServiceDate,
             endServiceDate: endServiceDate,
-            status:status=='true'?true:false,
-            multiUser:multiUser,
-            role:role,
+            status: status == 'true' ? true : false,
+            multiUser: multiUser,
+            role: role,
         };
 
         await this.userRepository.update({ phoneNumber: originalPhoneNumber }, updatedUserData);
+    }
+
+
+    /**
+     * 
+     * @param phoneNumber 
+     */
+    async deleteUserByPhoneNumber(phoneNumber: string) {
+        await this.userRepository.delete({ phoneNumber: phoneNumber });
     }
 
 
