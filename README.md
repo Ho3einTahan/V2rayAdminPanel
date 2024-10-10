@@ -46,9 +46,13 @@ Log In Request Example
 
 ``
 {
+  <br>
   "phoneNumber": "09911212...",
+  <br>
   "password": "secretpassword",
+  <br>
   "macAddress": "1253242128482",
+  <br>
 }
 ``
 
