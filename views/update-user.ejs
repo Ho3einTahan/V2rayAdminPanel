@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فرم ویرایش اطلاعات کاربر</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 20px;
+            background: #f5f5f5;
+            direction: rtl;
+            font-family: 'Vazir', sans-serif;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h4 {
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 10px;
+        }
+        .btn-primary {
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
+        .form-group label {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card bg-white p-4 mt-5">
+                    <h4 class="text-center mb-4">فرم ویرایش اطلاعات کاربر</h4>
+                    <form action="/user/edit" method="post">
+                        <input type="hidden" name="originalPhoneNumber" value="<%= user.phoneNumber %>">
+                        <div class="form-group row">
+                            <label for="phoneNumber" class="col-sm-4 col-form-label">شماره تلفن</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="phoneNumber" class="form-control" id="phoneNumber" value="<%= user.phoneNumber %>" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="userName" class="col-sm-4 col-form-label">نام کاربری</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="userName" class="form-control" id="userName" value="<%= user.userName %>" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="startServiceDate" class="col-sm-4 col-form-label">تاریخ شروع سرویس</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="startServiceDate" class="form-control" id="startServiceDate" value="<%= user.startServiceDate %>" placeholder="YYYY-MM-DD">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="endServiceDate" class="col-sm-4 col-form-label">تاریخ پایان سرویس</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="endServiceDate" class="form-control" id="endServiceDate" value="<%= user.endServiceDate %>" placeholder="YYYY-MM-DD">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="macAddress" class="col-sm-4 col-form-label">آدرس مک</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="macAddress" class="form-control" id="macAddress" value="<%= user.macAddress %>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="multiUser" class="col-sm-4 col-form-label">تعداد دسترسی</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="multiUser" class="form-control" id="multiUser" value="<%= user.multiUser %>">
+                            </div>
+                        </div>
+
+                        <!-- اضافه کردن فیلد انتخاب نوع سرویس -->
+                        <div class="form-group row">
+                            <label for="serviceType" class="col-sm-4 col-form-label">نوع سرویس</label>
+                            <div class="col-sm-8">
+                                <select name="serviceType" class="form-control" id="serviceType" required>
+                                    <option value="gold" <%= user.serviceType === 'gold' ? 'selected' : '' %>>بسته طلایی</option>
+                                    <option value="silver" <%= user.serviceType === 'silver' ? 'selected' : '' %>>بسته نقره‌ای</option>
+                                    <option value="bronze" <%= user.serviceType === 'bronze' ? 'selected' : '' %>>بسته برنزی</option>
+                                    <option value="diamond" <%= user.serviceType === 'diamond' ? 'selected' : '' %>>بسته الماس</option>
+                                    <option value="economy" <%= user.serviceType === 'economy' ? 'selected' : '' %>>بسته اقتصادی</option>
+                                    <option value="pro" <%= user.serviceType === 'pro' ? 'selected' : '' %>>بسته حرفه‌ای</option>
+                                    <option value="corporate" <%= user.serviceType === 'corporate' ? 'selected' : '' %>>بسته شرکتی</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="role" class="col-sm-4 col-form-label">نقش کاربر</label>
+                            <div class="col-sm-8">
+                                <select name="role" class="form-control" id="role">
+                                    <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>کاربر</option>
+                                    <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>مدیر</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="statusSelect" class="col-sm-4 col-form-label">وضعیت</label>
+                            <div class="col-sm-8">
+                                <select id="statusSelect" name="status" class="form-control">
+                                    <option value="true" <%= user.status === true ? 'selected' : '' %>>فعال</option>
+                                    <option value="false" <%= user.status === false ? 'selected' : '' %>>غیرفعال</option>
+                                </select>                                                              
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 text-center">
+                                <input type="submit" class="btn btn-primary mt-4" value="ثبت اطلاعات">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

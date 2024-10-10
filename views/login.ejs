@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login Page">
+    <meta name="author" content="Your Name">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/img/favicon.png" type="image/png">
+
+    <title>ورود</title>
+
+    <!-- Web fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800" rel="stylesheet">
+
+    <!-- Basic styles -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            max-width: 360px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .card img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            border-radius: 25px;
+            border: 1px solid #e1e5e9;
+            padding: 12px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+        }
+        .btn-theme {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 25px;
+            padding: 12px 20px;
+            border: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .btn-theme:hover {
+            background-color: #0056b3;
+        }
+        .alert {
+            margin-bottom: 20px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <% if (success.length > 0) { %>
+        <% success.forEach(message => { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= message %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% }); %>
+    <% } else if (error.length > 0) { %>
+        <% error.forEach(message => { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= message %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% }); %>
+    <% } %>
+
+    <div class="card">
+        <img src="/img/logo-dark.png" alt="Logo">
+        <h4 class="mb-4">ورود به حساب کاربری</h4>
+        <form method="post" action="/auth/login">
+            <div class="form-group">
+                <input type="number" name="phoneNumber" class="form-control" placeholder="شماره تلفن" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="رمز عبور" required>
+            </div>
+            <button type="submit" class="btn btn-theme">ورود</button>
+        </form>
+    </div>
+
+    <!-- Basic scripts -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/popper.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

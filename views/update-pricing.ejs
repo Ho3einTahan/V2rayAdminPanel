@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بروزرسانی قیمت</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazir', sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      direction: rtl;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, select {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .btn {
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+
+    .btn-back {
+      background-color: #f44336;
+      margin-top: 10px;
+    }
+
+    .btn-back:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>بروزرسانی قیمت</h1>
+     <form action="/pricing/edit/<%= id %>" method="post">
+      <div class="form-container">
+        <h2 id="form-title">بروزرسانی قیمت سرویس</h2>
+        <input type="text" name="serviceName" id="serviceName" value="<%= serviceName %>" placeholder="نام سرویس" />
+        <input type="text" name="price" id="price" value="<%= price %>" placeholder="قیمت" />
+        <input type="text" name="duration" id="duration" value="<%= duration %>" placeholder="مدت زمان" />
+        <input type="text" name="multiUser" id="multiUser" value="<%= multiUser %>" placeholder="تعداد کاربران" />
+  
+        <select name="platform" id="platform">
+          <option value="" disabled selected>انتخاب پلتفرم</option>
+          <option value="Windows" <% if (platform === 'Windows') { %> selected <% } %>>Windows</option>
+          <option value="Android" <% if (platform === 'Android') { %> selected <% } %>>Android</option>
+          <option value="IOS" <% if (platform === 'IOS') { %> selected <% } %>>IOS</option>
+          <option value="Android,Windows" <% if (platform === 'Android,Windows') { %> selected <% } %>>Android,Windows</option>
+        </select>
+        
+  
+        <button type="submit" class="btn" id="formButton">بروزرسانی قیمت</button>
+      </div>
+     </form>
+    <button class="btn btn-back" onclick="window.location.href='/pricing'">بازگشت به لیست قیمت‌ها</button>
+  </div>
+
+  <script src="/js/pricing-form-validator.js"></script>
+  
+</body>
+</html>

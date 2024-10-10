@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لیست تعرفه‌ها</title>
+  <style>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
+      direction: rtl;
+    }
+    h1 {
+      text-align: center;
+      color: #444;
+      padding: 20px;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      border-bottom: 3px solid #00aaff;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #00aaff;
+      color: white;
+      font-weight: bold;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+    .btn {
+      background-color: #00aaff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .btn:hover {
+      background-color: #007acc;
+      transform: scale(1.05);
+    }
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .info {
+      text-align: center;
+      margin-top: 20px;
+      font-style: italic;
+      color: #555;
+    }
+    .btn-add {
+      display: block;
+      margin: 0 auto 20px;
+      background-color: #28a745;
+    }
+    .btn-delete {
+      background-color: #dc3545;
+    }
+    .btn-update {
+      background-color: #ffc107;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>لیست تعرفه‌ها</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>نام سرویس</th>
+          <th>قیمت</th>
+          <th>مدت زمان</th>
+          <th>تعداد دستگاه‌ها</th>
+          <th>پلتفرم پشتیبانی‌شده</th>
+          <th>عملیات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% pricingData.forEach(item => { %>
+          <tr>
+            <td><%= item.serviceName %></td>
+            <td><%= item.price %></td>
+            <td><%= item.duration %></td>
+            <td><%= item.multiUser %></td>
+            <td><%= item.platform %></td>
+            <td class="actions">
+              <a href="/pricing/edit/<%= item.id %>" class="btn btn-update">آپدیت</a>
+              <button class="btn btn-delete" onclick="deletePricing('<%= item.id %>')">حذف</button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <a href="/pricing/add" class="btn btn-add">افزودن تعرفه جدید</a>
+  </div>
+
+  <script>
+    function deletePricing(id) {
+      if (confirm('آیا مطمئن هستید که می‌خواهید این تعرفه را حذف کنید؟')) {
+        fetch(`/pricing/delete/${id}`, { method: 'DELETE' })
+          .then(response => {
+            if (response.ok) {
+              location.reload();
+            } else {
+              alert('خطایی در حذف تعرفه رخ داد');
+            }
+          });
+      }
+    }
+  </script>
+</body>
+</html>

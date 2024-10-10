@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست سرورها</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazir', sans-serif;
+            direction: rtl;
+            text-align: right;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #343a40;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 15px;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .table-striped tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .edit-btn {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background-color: #e0a800;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-server {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .add-server a {
+            padding: 12px 25px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .add-server a:hover {
+            background-color: #218838;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-servers {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>لیست سرورها</h2>
+
+        <div class="add-server">
+            <a href="/servers/add">افزودن سرور جدید</a>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>کشور سرور</th>
+                    <th>آدرس سرور</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody id="serverTableBody">
+                <% data.forEach((server, index) => { %>
+                    <tr id="serverRow-<%= index %>">
+                        <td><%= server.country %></td>
+                        <td><%= server.address %></td>
+                        <td class="action-buttons">
+                            <a href="/servers/edit/<%= server.id %>">
+                                <button class="edit-btn">ویرایش</button>
+                            </a>
+                            <button class="delete-btn" onclick="deleteServer('<%= server.id %>','<%= index %>')">حذف</button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% if (data.length == 0) { %>
+            <div id="noServersMessage" class="no-servers">هیچ سروری یافت نشد.</div>
+        <% } %>
+    </div>
+
+    <script>
+        function deleteServer(serverId, index) {
+            if (confirm('آیا مطمئن هستید که می‌خواهید این سرور را حذف کنید؟')) {
+                fetch(`/servers/delete/${serverId}`, { 
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('سرور با موفقیت حذف شد');
+                        // حذف ردیف سرور از جدول
+                        document.getElementById(`serverRow-${index}`).remove();
+                    } else {
+                        alert('خطا در حذف سرور');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>    
+</body>
+</html>
